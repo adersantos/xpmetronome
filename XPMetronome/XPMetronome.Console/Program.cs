@@ -15,58 +15,80 @@ namespace XPMetronome.Console
             System.Console.WriteLine("Escala ou Metronomo: (E/M)");
             escalaMetronomo = System.Console.ReadLine();
 
-            if (escalaMetronomo == "E" || escalaMetronomo == "e")
+            if (escalaMetronomo.ToUpper() == "E")
             {
-                StringBuilder strB = new StringBuilder();
-                strB.Append(Constants.ESCOLHA_ESCALA + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.ESCALA_MAIOR_NATURAL + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.ESCALA_MENOR_NATURAL + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.ESCALA_MENOR_MELODICA + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.ESCALA_MENOR_HARMONICA + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.ESCALA_PENTATONICA_MAIOR + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.ESCALA_PENTATONICA_MENOR + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.PENTATONICA_MAIOR_BLUES + Constants.QUEBRA_LINHA);
-                strB.Append(Constants.PENTATONICA_MENOR_BLUES + Constants.QUEBRA_LINHA);
-                System.Console.WriteLine(strB);
-
-                var escalaSelecionada = System.Console.ReadLine();
-                Escala valorEscala =(Escala) Enum.Parse(typeof(Escala), escalaSelecionada);
+                Escala valorEscala = (Escala)Enum.Parse(typeof(Escala), ObterEscalaSelecionadaPeloUsuario());
 
                 ObterEscalaSelecionada(valorEscala);
             }
             else
             {
-                System.Console.WriteLine("Tipo Compasso: ");
-                configMetronomo.TipoCompasso = int.Parse(System.Console.ReadLine());
-                var compasso = configMetronomo.TipoCompasso.ToString();
+                configMetronomo.TipoCompasso = ObterTipoCompasso();
+                configMetronomo.Velocidade = ObterVelocidadeBpm();
+                configMetronomo.CompassosRepetir = ObterQtdCompassosRepetir();
+                var compassosEvoluir = ObterCompassosEvoluir(configMetronomo.CompassosRepetir);
+                int incremento = ObterIncrementoBpm();
 
-                System.Console.WriteLine("Velocidade: ");
-                configMetronomo.Velocidade = int.Parse(System.Console.ReadLine());
-
-                for (int i = 0; i < int.Parse(compasso.Substring(0,1)); i++)
+                for (int i = 0; i < configMetronomo.CompassosRepetir; i++)
                 {
-                    Note[] metronomo = { new Note(Tone.A2, Duration.SIXTEENTH) };
-                   Play(metronomo);
+                    for (int j = 0; j < configMetronomo.TipoCompasso; j++)
+                    {
+                        Note[] metronomo = { new Note(j == 0 ? Tone.A2 : Tone.C2, i >= compassosEvoluir ? Duration.QUARTER - incremento : Duration.QUARTER) };
+                        Play(metronomo);
+                    }
                 }
             }
+        }
+        
+
+        #region Métodos
+
+        private static string ObterEscalaSelecionadaPeloUsuario()
+        {
+            StringBuilder strB = new StringBuilder();
+            strB.Append(Constants.ESCOLHA_ESCALA + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.ESCALA_MAIOR_NATURAL + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.ESCALA_MENOR_NATURAL + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.ESCALA_MENOR_MELODICA + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.ESCALA_MENOR_HARMONICA + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.ESCALA_PENTATONICA_MAIOR + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.ESCALA_PENTATONICA_MENOR + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.PENTATONICA_MAIOR_BLUES + Constants.QUEBRA_LINHA);
+            strB.Append(Constants.PENTATONICA_MENOR_BLUES + Constants.QUEBRA_LINHA);
+            System.Console.WriteLine(strB);
+
+            return System.Console.ReadLine();
         }
 
         private static void ObterEscalaSelecionada(Escala escala)
         {
             switch (escala)
             {
-                case Escala.MaiorNatural: ObterEscalaMaiorNatural();
+                case Escala.MaiorNatural:
+                    ObterEscalaMaiorNatural();
                     break;
-                case Escala.MenorNatural: ObterEscalaMenorNatural();
+                case Escala.MenorNatural:
+                    ObterEscalaMenorNatural();
                     break;
-                case Escala.MenorMelodica: ObterEscalaMenorMelodica();
+                case Escala.MenorMelodica:
+                    ObterEscalaMenorMelodica();
                     break;
-                case Escala.MenorHarmonica: ObterEscalaMenorHarmonica();
+                case Escala.MenorHarmonica:
+                    ObterEscalaMenorHarmonica();
                     break;
                 default:
                     break;
             }
         }
+
+        public class ConfiguracaoMetronomo
+        {
+            public int TipoCompasso { get; set; }
+            public int Velocidade { get; set; }
+            public int CompassosRepetir { get; set; }
+        }
+
+        #endregion
 
         #region Play
         private static void Play(Note[] metronomo)
@@ -97,39 +119,61 @@ namespace XPMetronome.Console
         private static void ObterEscalaMenorHarmonica()
         {
             Note[] escalaSelecionada = { new Note(Tone.C,Duration.QUARTER),
-                                 new Note(Tone.D,Duration.QUARTER),
-                                 new Note(Tone.Dsharp,Duration.QUARTER),
-                                 new Note(Tone.F,Duration.QUARTER),
-                                 new Note(Tone.G,Duration.QUARTER),
-                                 new Note(Tone.Gsharp,Duration.QUARTER),
-                                 new Note(Tone.B2,Duration.QUARTER),
-                                 new Note(Tone.C2,Duration.QUARTER)};
+                                         new Note(Tone.D,Duration.QUARTER),
+                                         new Note(Tone.Dsharp,Duration.QUARTER),
+                                         new Note(Tone.F,Duration.QUARTER),
+                                         new Note(Tone.Gsharp,Duration.QUARTER),
+                                         new Note(Tone.A2,Duration.QUARTER),
+                                         new Note(Tone.B2,Duration.QUARTER),
+                                         new Note(Tone.C2,Duration.QUARTER),
+                                         new Note(Tone.B2,Duration.QUARTER),
+                                         new Note(Tone.A2,Duration.QUARTER),
+                                         new Note(Tone.Gsharp,Duration.QUARTER),
+                                         new Note(Tone.F,Duration.QUARTER),
+                                         new Note(Tone.Dsharp,Duration.QUARTER),
+                                         new Note(Tone.D,Duration.QUARTER),
+                                         new Note(Tone.C,Duration.QUARTER)};
             Play(escalaSelecionada);
         }
 
         private static void ObterEscalaMenorNatural()
         {
             Note[] escalaSelecionada = { new Note(Tone.C,Duration.QUARTER),
-                                 new Note(Tone.D,Duration.QUARTER),
-                                 new Note(Tone.Dsharp,Duration.QUARTER),
-                                 new Note(Tone.F,Duration.QUARTER),
-                                 new Note(Tone.G,Duration.QUARTER),
-                                 new Note(Tone.Gsharp,Duration.QUARTER),
-                                 new Note(Tone.B2,Duration.QUARTER),
-                                 new Note(Tone.C2,Duration.QUARTER)};
+                                         new Note(Tone.D,Duration.QUARTER),
+                                         new Note(Tone.Dsharp,Duration.QUARTER),
+                                         new Note(Tone.F,Duration.QUARTER),
+                                         new Note(Tone.G,Duration.QUARTER),
+                                         new Note(Tone.Gsharp,Duration.QUARTER),
+                                         new Note(Tone.Asharp2,Duration.QUARTER),
+                                         new Note(Tone.C2,Duration.QUARTER),
+                                         new Note(Tone.Asharp2,Duration.QUARTER),
+                                         new Note(Tone.A2,Duration.QUARTER),
+                                         new Note(Tone.Gsharp,Duration.QUARTER),
+                                         new Note(Tone.F,Duration.QUARTER),
+                                         new Note(Tone.Dsharp,Duration.QUARTER),
+                                         new Note(Tone.D,Duration.QUARTER),
+                                         new Note(Tone.C,Duration.QUARTER)};
             Play(escalaSelecionada);
         }
 
         private static void ObterEscalaMaiorNatural()
         {
             Note[] escalaSelecionada = { new Note(Tone.C,Duration.QUARTER),
-                                 new Note(Tone.D,Duration.QUARTER),
-                                 new Note(Tone.E,Duration.QUARTER),
-                                 new Note(Tone.F,Duration.QUARTER),
-                                 new Note(Tone.G,Duration.QUARTER),
-                                 new Note(Tone.A2,Duration.QUARTER),
-                                 new Note(Tone.B2,Duration.QUARTER),
-                                 new Note(Tone.C2,Duration.QUARTER)};
+                                         new Note(Tone.D,Duration.QUARTER),
+                                         new Note(Tone.E,Duration.QUARTER),
+                                         new Note(Tone.F,Duration.QUARTER),
+                                         new Note(Tone.G,Duration.QUARTER),
+                                         new Note(Tone.A2,Duration.QUARTER),
+                                         new Note(Tone.B2,Duration.QUARTER),
+                                         new Note(Tone.C2,Duration.QUARTER),
+                                         new Note(Tone.C2,Duration.QUARTER),
+                                         new Note(Tone.B2,Duration.QUARTER),
+                                         new Note(Tone.A2,Duration.QUARTER),
+                                         new Note(Tone.G,Duration.QUARTER),
+                                         new Note(Tone.F,Duration.QUARTER),
+                                         new Note(Tone.E,Duration.QUARTER),
+                                         new Note(Tone.D,Duration.QUARTER),
+                                         new Note(Tone.C,Duration.QUARTER)};
             Play(escalaSelecionada);
         }
 
@@ -144,6 +188,50 @@ namespace XPMetronome.Console
                                  new Note(Tone.B2,Duration.QUARTER),
                                  new Note(Tone.C2,Duration.QUARTER)};
             Play(escalaSelecionada);
+        }
+        #endregion
+
+        #region Metronomo
+        private static int ObterVelocidadeBpm()
+        {
+            System.Console.WriteLine("Velocidade: ");
+            return int.Parse(System.Console.ReadLine());
+        }
+
+        private static int ObterTipoCompasso()
+        {
+            System.Console.WriteLine("Tipo Compasso: ");
+            return int.Parse(System.Console.ReadLine().Substring(0, 1));
+        }
+
+        private static int ObterQtdCompassosRepetir()
+        {
+            System.Console.WriteLine("Informe quantidade de compassos a repetir: ");
+            return int.Parse(System.Console.ReadLine());
+        }
+
+        private static int ObterCompassosEvoluir(int compassosRepetir)
+        {
+            int evoluir = 0;
+            System.Console.WriteLine("A partir de qual compasso deseja aumentar a velocidade?: ");
+
+            evoluir = int.Parse(System.Console.ReadLine().Substring(0, 1));
+            if (compassosRepetir < evoluir)
+            {
+                while (compassosRepetir < evoluir)
+                {
+                    System.Console.WriteLine("Os compassos a evoluir não podem ser maiores que o total de compassos: ");
+                    evoluir = int.Parse(System.Console.ReadLine().Substring(0, 1));
+                }
+            }
+
+            return evoluir;
+        }
+
+        private static int ObterIncrementoBpm()
+        {
+            System.Console.WriteLine("Quantos BPM's deseja incrementar?: ");
+            return int.Parse(System.Console.ReadLine());
         }
         #endregion
 
@@ -169,12 +257,13 @@ namespace XPMetronome.Console
             REST = 0,
             GbelowC = 196,
             A = 220,
-            A2 = A*2,
+            A2 = A * 2,
             Asharp = 233,
+            Asharp2 = Asharp * 2,
             B = 247,
-            B2 = B*2,
+            B2 = B * 2,
             C = 262,
-            C2 = C*2,
+            C2 = C * 2,
             Csharp = 277,
             D = 294,
             Dsharp = 311,
@@ -184,6 +273,7 @@ namespace XPMetronome.Console
             G = 392,
             Gsharp = 415
         }
+
         protected enum Duration
         {
             WHOLE = 1600,
@@ -207,12 +297,6 @@ namespace XPMetronome.Console
         }
         #endregion
 
-        public class ConfiguracaoMetronomo
-        {
-            public int TipoCompasso { get; set; }
-            public int Velocidade { get; set; }
-        }
-
     }
-    
+
 }
