@@ -1,0 +1,5 @@
+C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\bin\Debug\XPMetronome.Domain.dll
+C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\bin\Debug\XPMetronome.Domain.pdb
+C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.dll
+C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.pdb
+C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.csprojResolveAssemblyReference.cache
