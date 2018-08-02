@@ -35,15 +35,33 @@ namespace XPMetronome.Console
                 var compassosEvoluir = ObterCompassosEvoluir(configMetronomo.CompassosRepetir);
                 int incremento = ObterIncrementoBpm(configMetronomo.Velocidade);
 
-                for (int i = 0; i < configMetronomo.CompassosRepetir; i++)
+                ExecutarLoopingInfinito(configMetronomo, compassosEvoluir, incremento);
+
+                //for (int i = 0; i < configMetronomo.CompassosRepetir; i++)
+                //{
+                //    for (int j = 0; j < configMetronomo.TipoCompasso; j++) //Duration.QUARTER = 600ms => Duration.WHOLE = 2400ms
+                //    {
+                //        //Note[] metronomo = { new Note(j == 0 ? Tone.A2 : Tone.C2, i >= compassosEvoluir ? Duration.QUARTER - incremento : Duration.QUARTER) };
+                //        //Play(metronomo);
+                //        ExecutarBeep(j, configMetronomo.TipoCompasso, i >= compassosEvoluir ? incremento : configMetronomo.Velocidade);
+                //    }
+                //}
+            }
+        }
+
+        private static void ExecutarLoopingInfinito(Configuracao configMetronomo, int compassosEvoluir, int incremento)
+        {
+            int i = 0;
+            while (i <= 100)
+            {
+                for (int j = 0; j < configMetronomo.TipoCompasso; j++)
                 {
-                    for (int j = 0; j < configMetronomo.TipoCompasso; j++) //Duration.QUARTER = 600ms => Duration.WHOLE = 2400ms
-                    {
-                        //Note[] metronomo = { new Note(j == 0 ? Tone.A2 : Tone.C2, i >= compassosEvoluir ? Duration.QUARTER - incremento : Duration.QUARTER) };
-                        //Play(metronomo);
-                        ExecutarBeep(j, configMetronomo.TipoCompasso, i >= compassosEvoluir ? incremento : configMetronomo.Velocidade);
-                    }
+                    ExecutarBeep(j, configMetronomo.TipoCompasso, j >= compassosEvoluir ? incremento : configMetronomo.Velocidade);
                 }
+
+                //if (System.Console.ReadKey().Key == ConsoleKey.Escape) return;
+
+                i++;
             }
         }
 
@@ -67,7 +85,7 @@ namespace XPMetronome.Console
         private static void ExecutarBeep(int contador, int tipoCompasso, int velocidade)
         {
             var compasso = int.Parse(tipoCompasso.ToString().PadRight(1));
-            System.Console.Beep(contador== 0 ?(int)Tone.D : (int)Tone.A, velocidade);
+            System.Console.Beep(contador == 0 ? (int)Tone.D : (int)Tone.A, velocidade);
 
         }
         #endregion
