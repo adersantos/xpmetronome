@@ -1,6 +1,48 @@
 ﻿@{ 
-    ViewBag.Title = "Configuração do Metrônomo";
+    ViewBag.Title = "Configuração";
 }
+<style>
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+</style>
+
 <div id="conteudo_metronomo" >
     <section id="metronomo_configuracao">
         <h1>@ViewBag.Title</h1>
@@ -9,25 +51,54 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
-                    <div id="cabecalho_grid" class="row">
-
-                    </div>
                     <div class="row">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
+                        <table id="grid_configuracao" class="table table-bordered table-striped table-hover">
                             <tbody>
                                 <tr>
-                                    <td></td>
+                                    <td>Tipo de Compasso</td>
+                                    <td>
+                                            <select id="selTipoCompasso">
+                                                <option value="2/4">2/4</option>
+                                                <option value="3/4">3/4</option>
+                                                <option value="4/4">4/4</option>
+                                                <option value="7/4">7/4</option>
+                                                <option value="6/8">6/8</option>
+                                                <option value="7/8">7/8</option>
+                                            </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Velocidade BPM</td>
+                                    <td>
+                                        <div class="slidecontainer">
+                                            <input id="slider" type="range" min="1" max="200" value="100" class="slider" />
+                                            <p id="slider-value-current">bpm: <span id="slider-value">100</span></p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Qtde Compassos a Repetir</td>
+                                    <td>
+                                        <input id="txt-qtd-compass-loop" type="text" value="Compassos Repetir" class="form-control" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Compasso a Evoluir</td>
+                                    <td>
+                                        <input id="txt-compass-evol" type="text" value="Compassos Evoluir" class="form-control" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Incremento BPM</td>
+                                    <td>
+                                        <input id="txt-incremento-bpm" type="text" value="Incrementar BPM" class="form-control" />
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td></td>
                                     <td>
-                                        <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i>Alterar</a>
-                                        <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i>Excluir</a>
+                                        <a class="btn btn-primary btn-play" role="button"><i class="glyphicon glyphicon-play"></i> Iniciar</a>
+                                        <a class="btn btn-danger btn-stop" role="button"><i class="glyphicon glyphicon-stop"></i> Parar</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -38,4 +109,34 @@
         </div>
     </section>
 </div>
+@section Scripts{
+    <script>
+
+        var slider = document.getElementById("slider");
+        var valor_slider = document.getElementById("slider-value");
+        valor_slider.innerHTML = slider.value;
+        slider.oninput = function () {
+            valor_slider.innerHTML = this.value;
+        };
+
+        $(document)
+            .on('click', '.btn-play', function () {
+                var btn = $(this),
+                    url = '@Url.Action("ExecutarMetronomo","Metronomo")',
+                    param = {                        
+                        'TipoCompasso': $('#selTipoCompasso').val(),
+                        'Bpm': $('#slider').val(),
+                        'QtdCompassosRepetir': $('#txt-qtd-compass-loop').val(),
+                        'QtdCompassosEvoluir': $('#txt-compass-evol').val(),
+                        'IncrementoBpm': $('#txt-incremento-bpm').val()
+                    };
+                $.post(url, param, function(response){
+                    if (response.Retorno == "throw") {
+                        alert("Ocorreu um erro");
+                    }
+                })
+        });
+
+    </script>
+}
 

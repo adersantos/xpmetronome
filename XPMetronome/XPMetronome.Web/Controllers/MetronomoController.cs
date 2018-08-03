@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using XPMetronome.Domain;
+using XPMetronome.Web.Models;
 
 namespace XPMetronome.Web.Controllers
 {
@@ -12,31 +14,48 @@ namespace XPMetronome.Web.Controllers
         Configuracao configMetronomo = new Configuracao();
         string escalaMetronomo = string.Empty;
         
-        public ActionResult Index()
+        public ActionResult Metronomo()
         {
             return View();
         }
 
-        public void ConfigurarMetronomo()
+        [HttpPost]
+        public ActionResult ExecutarMetronomo(MetronomoModel model)
         {
-            configMetronomo.TipoCompasso = ObterTipoCompasso();
-            configMetronomo.Velocidade = ObterVelocidadeBpm();
-            configMetronomo.CompassosRepetir = ObterQtdCompassosRepetir();
-            var compassosEvoluir = ObterCompassosEvoluir(configMetronomo.CompassosRepetir);
-            int incremento = ObterIncrementoBpm(configMetronomo.Velocidade);
+            string retorno = "Executando";
+            var mensagens = new List<string>();
 
-            ExecutarLoopingInfinito(configMetronomo, (int)compassosEvoluir, incremento);
-
+            if (!ModelState.IsValid)
+            {
+                retorno = "Model state inválida.";
+                mensagens = ModelState.Values.SelectMany(m => m.Errors).Select(n => n.ErrorMessage).ToList();
+            }
+            else
+            {
+                try
+                {
+                    ExecutarLoopingInfinito(model);
+                }
+                catch (Exception)
+                {
+                    retorno = "throw";
+                }
+            }
+            return Json(new { Retorno = retorno, Mensagens = mensagens});
         }
 
-        private void ExecutarLoopingInfinito(Configuracao configMetronomo, int compassosEvoluir, int incremento)
+        private void ExecutarLoopingInfinito(MetronomoModel model)
         {
             int i = 0;
-            while (i <= 100)
+            int tipoCompasso = int.Parse(model.TipoCompasso.Substring(0, 1));
+            int bpmOriginal = CalculoBPM.CalcularBPM(model.Bpm);
+            int bpmAtual = CalculoBPM.CalcularBPM(Constants.milisegundos / (model.IncrementoBpm + model.Bpm));
+
+            while (i <= 10)
             {
-                for (int j = 0; j < configMetronomo.TipoCompasso; j++)
+                for (int j = 0; j <= tipoCompasso; j++)
                 {
-                    ExecutarBeep(j, configMetronomo.TipoCompasso, j >= compassosEvoluir ? incremento : configMetronomo.Velocidade);
+                    ExecutarBeep(j, tipoCompasso, j >= model.QtdCompassosEvoluir ? bpmAtual : bpmOriginal);
                 }
 
                 i++;
@@ -45,51 +64,9 @@ namespace XPMetronome.Web.Controllers
 
         private void ExecutarBeep(int contador, int tipoCompasso, int velocidade)
         {
-            var compasso = int.Parse(tipoCompasso.ToString().PadRight(1));
+            Thread.Sleep(500);
             System.Console.Beep(contador == 0 ? (int)Tone.D : (int)Tone.A, velocidade);
         }
 
-        private int ObterIncrementoBpm(int velocidade)
-        {
-            System.Console.WriteLine("Quantos BPM's deseja incrementar?: ");
-            var bpmAtual = CalculoBPM.CalcularBPM(Constants.milisegundos / bpmAnterior + int.Parse(System.Console.ReadLine()));
-            return bpmAtual;
-        }
-
-        private object ObterCompassosEvoluir(int compassosRepetir)
-        {
-            int evoluir = 0;
-            System.Console.WriteLine("A partir de qual compasso deseja aumentar a velocidade?: ");
-
-            evoluir = int.Parse(System.Console.ReadLine().Substring(0, 1));
-            if (compassosRepetir < evoluir)
-            {
-                while (compassosRepetir < evoluir)
-                {
-                    System.Console.WriteLine("Os compassos a evoluir não podem ser maiores que o total de compassos: ");
-                    evoluir = int.Parse(System.Console.ReadLine().Substring(0, 1));
-                }
-            }
-
-            return evoluir;
-        }
-
-        private int ObterQtdCompassosRepetir()
-        {
-            System.Console.WriteLine("Informe quantidade de compassos a repetir: ");
-            return int.Parse(System.Console.ReadLine());
-        }
-
-        private int ObterVelocidadeBpm()
-        {
-            System.Console.WriteLine("Velocidade: (bpm)");
-            return CalculoBPM.CalcularBPM(int.Parse(System.Console.ReadLine()));
-        }
-
-        private int ObterTipoCompasso()
-        {
-            System.Console.WriteLine("Tipo Compasso: ");
-            return int.Parse(System.Console.ReadLine().Substring(0, 1));
-        }
     }
 }

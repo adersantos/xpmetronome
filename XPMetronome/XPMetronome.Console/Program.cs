@@ -35,31 +35,29 @@ namespace XPMetronome.Console
                 var compassosEvoluir = ObterCompassosEvoluir(configMetronomo.CompassosRepetir);
                 int incremento = ObterIncrementoBpm(configMetronomo.Velocidade);
 
-                ExecutarLoopingInfinito(configMetronomo, compassosEvoluir, incremento);
+                //ExecutarLoopingInfinito(configMetronomo, compassosEvoluir, incremento);
 
-                //for (int i = 0; i < configMetronomo.CompassosRepetir; i++)
-                //{
-                //    for (int j = 0; j < configMetronomo.TipoCompasso; j++) //Duration.QUARTER = 600ms => Duration.WHOLE = 2400ms
-                //    {
-                //        //Note[] metronomo = { new Note(j == 0 ? Tone.A2 : Tone.C2, i >= compassosEvoluir ? Duration.QUARTER - incremento : Duration.QUARTER) };
-                //        //Play(metronomo);
-                //        ExecutarBeep(j, configMetronomo.TipoCompasso, i >= compassosEvoluir ? incremento : configMetronomo.Velocidade);
-                //    }
-                //}
+                for (int i = 0; i < configMetronomo.CompassosRepetir; i++)
+                {
+                    for (int j = 0; j < configMetronomo.TipoCompasso; j++) //Duration.QUARTER = 600ms => Duration.WHOLE = 2400ms
+                    {
+                        //Note[] metronomo = { new Note(j == 0 ? Tone.A2 : Tone.C2, i >= compassosEvoluir ? Duration.QUARTER - incremento : Duration.QUARTER) };
+                        //Play(metronomo);
+                        ExecutarBeep(j, configMetronomo.TipoCompasso, i >= compassosEvoluir ? incremento : configMetronomo.Velocidade);
+                    }
+                }
             }
         }
 
         private static void ExecutarLoopingInfinito(Configuracao configMetronomo, int compassosEvoluir, int incremento)
         {
             int i = 0;
-            while (i <= 100)
+            while (i <= 10)
             {
                 for (int j = 0; j < configMetronomo.TipoCompasso; j++)
                 {
                     ExecutarBeep(j, configMetronomo.TipoCompasso, j >= compassosEvoluir ? incremento : configMetronomo.Velocidade);
                 }
-
-                //if (System.Console.ReadKey().Key == ConsoleKey.Escape) return;
 
                 i++;
             }

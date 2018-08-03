@@ -51,3 +51,5 @@ C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Web\bin\Newtonsoft.Json.xml
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Web\obj\Debug\XPMetronome.Web.csprojResolveAssemblyReference.cache
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Web\obj\Debug\XPMetronome.Web.dll
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Web\obj\Debug\XPMetronome.Web.pdb
+C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Web\bin\XPMetronome.Domain.dll
+C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Web\bin\XPMetronome.Domain.pdb
