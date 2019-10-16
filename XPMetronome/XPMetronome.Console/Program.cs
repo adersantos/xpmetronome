@@ -27,6 +27,7 @@ namespace XPMetronome.Console
                     ExecutarEscalaSelecionada(escalaSelecionada);
                 }
             }
+
             else
             {
                 configMetronomo.TipoCompasso = ObterTipoCompasso();
@@ -47,6 +48,9 @@ namespace XPMetronome.Console
                     }
                 }
             }
+
+            System.Console.ReadLine();
+
         }
 
         private static void ExecutarLoopingInfinito(Configuracao configMetronomo, int compassosEvoluir, int incremento)
@@ -69,14 +73,18 @@ namespace XPMetronome.Console
         #endregion
 
         #region Play
-        private static void Play(Note[] metronomo)
+        private static void Play(Note[] note)
         {
-            foreach (var nota in metronomo)
+            foreach (var nota in note)
             {
+                System.Console.WriteLine(nota.NoteTone.ToString());
+
                 if (nota.NoteTone == Tone.REST)
                     Thread.Sleep((int)nota.NoteDuration);
                 else
+                {
                     System.Console.Beep((int)nota.NoteTone, (int)nota.NoteDuration);
+                }
             }
         }
 
@@ -122,9 +130,104 @@ namespace XPMetronome.Console
                 case Escala.MenorHarmonica:
                     ObterEscalaMenorHarmonica();
                     break;
+                case Escala.PentatonicaMaior:
+                    ObterEscalaPentatonicaMaior();
+                    break;
+                case Escala.PentatonicaMenor:
+                    ObterEscalaPentatonicaMenor();
+                    break;
+                case Escala.PentatonicaMaiorBlues:
+                    ObterEscalaPentatonicaMaiorBlues();
+                    break;
+                case Escala.PentatonicaMenorBlues:
+                    ObterEscalaPentatonicaMenorBlues();
+                    break;
                 default:
                     break;
             }
+        }
+
+
+        private static void ObterEscalaPentatonicaMaiorBlues()
+        {
+            Note[] escalaSelecionada =
+            {
+                new Note(Tone.C, Duration.QUARTER),
+                new Note(Tone.D, Duration.QUARTER),
+                new Note(Tone.Dsharp, Duration.QUARTER),
+                new Note(Tone.E, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.A2, Duration.QUARTER),
+                new Note(Tone.C, Duration.QUARTER),
+                new Note(Tone.A2, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.E, Duration.QUARTER),
+                new Note(Tone.Dsharp, Duration.QUARTER),
+                new Note(Tone.D, Duration.QUARTER),
+                new Note(Tone.C, Duration.QUARTER)
+            };
+
+            Play(escalaSelecionada);
+        }
+
+        private static void ObterEscalaPentatonicaMaior()
+        {
+            Note[] escalaSelecionada =
+            {
+                new Note(Tone.C, Duration.QUARTER),
+                new Note(Tone.D, Duration.QUARTER),
+                new Note(Tone.E, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.A2, Duration.QUARTER),
+                new Note(Tone.C2, Duration.QUARTER),
+                new Note(Tone.A2, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.E, Duration.QUARTER),
+                new Note(Tone.D, Duration.QUARTER),
+                new Note(Tone.C, Duration.QUARTER)
+            };
+
+            Play(escalaSelecionada);
+        }
+
+        private static void ObterEscalaPentatonicaMenor()
+        {
+            Note[] escalaSelecionada =
+            {
+                new Note(Tone.C, Duration.QUARTER),
+                new Note(Tone.Dsharp, Duration.QUARTER),
+                new Note(Tone.F, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.Asharp2, Duration.QUARTER),
+                new Note(Tone.C2, Duration.QUARTER),
+                new Note(Tone.Asharp2, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.F, Duration.QUARTER),
+                new Note(Tone.Dsharp, Duration.QUARTER),
+                new Note(Tone.C, Duration.QUARTER)
+            };
+            Play(escalaSelecionada);
+        }
+
+        private static void ObterEscalaPentatonicaMenorBlues()
+        {
+            Note[] escalaSelecionada =
+            {
+                new Note(Tone.C, Duration.QUARTER),
+                new Note(Tone.Dsharp, Duration.QUARTER),
+                new Note(Tone.F, Duration.QUARTER),
+                new Note(Tone.Fsharp, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.Asharp2, Duration.QUARTER),
+                new Note(Tone.C2, Duration.QUARTER),
+                new Note(Tone.Asharp2, Duration.QUARTER),
+                new Note(Tone.G, Duration.QUARTER),
+                new Note(Tone.Fsharp, Duration.QUARTER),
+                new Note(Tone.F, Duration.QUARTER),
+                new Note(Tone.Dsharp, Duration.QUARTER),
+                new Note(Tone.C, Duration.QUARTER)
+            };
+            Play(escalaSelecionada);
         }
 
         private static void ObterEscalaMenorHarmonica()

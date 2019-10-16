@@ -6,3 +6,13 @@ C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Console\obj\Debug\XPMetronome.Co
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Console\obj\Debug\XPMetronome.Console.pdb
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Console\bin\Debug\XPMetronome.Domain.dll
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Console\bin\Debug\XPMetronome.Domain.pdb
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\bin\Debug\XPMetronome.Console.exe.config
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\bin\Debug\XPMetronome.Console.exe
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\bin\Debug\XPMetronome.Console.pdb
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\bin\Debug\XPMetronome.Domain.dll
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\bin\Debug\XPMetronome.Domain.pdb
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\obj\Debug\XPMetronome.Console.csprojAssemblyReference.cache
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\obj\Debug\XPMetronome.Console.csproj.CoreCompileInputs.cache
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\obj\Debug\XPMetronome.Console.csproj.CopyComplete
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\obj\Debug\XPMetronome.Console.exe
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Console\obj\Debug\XPMetronome.Console.pdb

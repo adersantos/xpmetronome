@@ -3,3 +3,9 @@ C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\bin\Debug\XPMetronome.Dom
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.dll
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.pdb
 C:\Projetos\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.csprojResolveAssemblyReference.cache
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Domain\bin\Debug\XPMetronome.Domain.dll
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Domain\bin\Debug\XPMetronome.Domain.pdb
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.csprojAssemblyReference.cache
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.csproj.CoreCompileInputs.cache
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.dll
+D:\Desenvolvimento\Apps\xpmetronome\XPMetronome\XPMetronome.Domain\obj\Debug\XPMetronome.Domain.pdb

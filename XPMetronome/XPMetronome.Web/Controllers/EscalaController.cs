@@ -16,7 +16,7 @@ namespace XPMetronome.Web.Controllers
 
         public ActionResult MontarEscala()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Metrônomo Inteligente.";
 
             return View();
         }

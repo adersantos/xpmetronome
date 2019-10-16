@@ -15,14 +15,14 @@ namespace XPMetronome.Web.Controllers
 
         public ActionResult Sobre()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Metrônomo Inteligente.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "By: Ader Santos";
 
             return View();
         }
