@@ -9,22 +9,28 @@ namespace XPMetronome.Console
     {
         static void Main(string[] args)
         {
+            Escala escala;
             var configMetronomo = new Configuracao();
             string escalaMetronomo = string.Empty;
 
             System.Console.WriteLine("Escala ou Metronomo: (E/M)");
             escalaMetronomo = System.Console.ReadLine();
 
+            System.Console.WriteLine("Escolha quantidade de repetições: ");
+            int repeticoesTocarEscala = int.Parse(System.Console.ReadLine());
+
             if (escalaMetronomo.ToUpper() == "E")
             {
-                Escala escalaSelecionada = (Escala)Enum.Parse(typeof(Escala), ObterEscalaSelecionadaPeloUsuario());
-
-                System.Console.WriteLine("Escolha quantidade de repetições: ");
-                int repeticoesTocarEscala = int.Parse(System.Console.ReadLine());
-
-                for (int i = 0; i < repeticoesTocarEscala; i++)
+                string[] escalas = ObterEscalaSelecionadaPeloUsuario().Split(' ');
+                for (int i = 0; i < escalas.Length; i++)
                 {
-                    ExecutarEscalaSelecionada(escalaSelecionada);
+                    escala = (Escala)Enum.Parse(typeof(Escala), escalas[i].ToString());
+
+                    for (int j = 0; j < repeticoesTocarEscala; j++)
+                    {
+                        System.Console.WriteLine(escala);
+                        ExecutarEscalaSelecionada(escala);
+                    }
                 }
             }
 
@@ -77,7 +83,7 @@ namespace XPMetronome.Console
         {
             foreach (var nota in note)
             {
-                System.Console.WriteLine(nota.NoteTone.ToString());
+                System.Console.Write(nota.NoteTone.ToString() + " ");
 
                 if (nota.NoteTone == Tone.REST)
                     Thread.Sleep((int)nota.NoteDuration);
@@ -86,6 +92,7 @@ namespace XPMetronome.Console
                     System.Console.Beep((int)nota.NoteTone, (int)nota.NoteDuration);
                 }
             }
+            System.Console.WriteLine(Environment.NewLine);
         }
 
         private static void ExecutarBeep(int contador, int tipoCompasso, int velocidade)
@@ -147,7 +154,6 @@ namespace XPMetronome.Console
             }
         }
 
-
         private static void ObterEscalaPentatonicaMaiorBlues()
         {
             Note[] escalaSelecionada =
@@ -158,7 +164,7 @@ namespace XPMetronome.Console
                 new Note(Tone.E, Duration.QUARTER),
                 new Note(Tone.G, Duration.QUARTER),
                 new Note(Tone.A2, Duration.QUARTER),
-                new Note(Tone.C, Duration.QUARTER),
+                new Note(Tone.C2, Duration.QUARTER),
                 new Note(Tone.A2, Duration.QUARTER),
                 new Note(Tone.G, Duration.QUARTER),
                 new Note(Tone.E, Duration.QUARTER),
@@ -166,7 +172,6 @@ namespace XPMetronome.Console
                 new Note(Tone.D, Duration.QUARTER),
                 new Note(Tone.C, Duration.QUARTER)
             };
-
             Play(escalaSelecionada);
         }
 
